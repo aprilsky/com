@@ -1,7 +1,7 @@
 package filetool
 
 import (
-	"github.com/aprilsky/goutils/strtool"
+	"github.com/aprilsky/goutils/stringUtils"
 	"io/ioutil"
 )
 
@@ -31,5 +31,5 @@ func ReadFileToStringNoLn(filePath string) (string, error) {
 		return "", err
 	}
 
-	return strtool.TrimRightSpace(str), nil
+	return stringUtils.TrimRightSpace(str), nil
 }
