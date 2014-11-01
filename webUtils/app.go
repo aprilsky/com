@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"runtime/debug"
 	"strings"
+	"path"
 )
 
 
@@ -33,7 +34,19 @@ func New() *App {
 	}
 	a.NotFound(notFoundHandle)
 
-
+	a.Config().StringOr("app.static_dir", "static")
+	a.Static(func(context *Context) {
+		static := a.Config().String("app.static_dir")
+		url := strings.TrimPrefix(context.Url, "/")
+		if url == "favicon.ico" {
+			url = path.Join(static, url)
+		}
+		if !strings.HasPrefix(url, static) {
+			return
+		}
+		http.ServeFile(context.Response, context.Request, url)
+		context.IsEnd = true
+	})
 	return a
 }
 

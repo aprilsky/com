@@ -9,6 +9,7 @@ import (
 	"github.com/aprilsky/goutils/stringUtils"
 	webUtils "github.com/aprilsky/goutils/webUtils"
 	"html/template"
+	"github.com/aprilsky/goutils/model"
 )
 func testTimeUtils(){
 	fmt.Println(timeUtils.DateFormat(time.Now(), "YYYY-MM-DD"))
@@ -54,8 +55,38 @@ func start(){
 }
 func main() {
 	web := webUtils.New()
+	var data = make(map[string]interface {})
 	web.Get("/",func(context *webUtils.Context){
 			context.Layout("layout")
-			context.Render("index",nil)
+			data["Title"] = "首页"
+			tasks := model.ListTasks()
+			data["Tasks"] = tasks
+			for _,task := range tasks{
+				println(task.Title)
+			}
+			context.Render("index",data)
 		})
+	web.Route("POST,GET","/list/",func(context *webUtils.Context){
+			data["Title"] = "列表"
+			context.Layout("layout")
+			context.Render("list",data)
+		})
+	web.Route("GET","/add/",func(context *webUtils.Context){
+			context.Layout("layout")
+			context.Render("add",nil)
+		})
+	web.Route("POST","/add/",func(context *webUtils.Context){
+			context.Json("")
+		})
+	web.Route("PUT","/update/",func(context *webUtils.Context){
+			context.Json("")
+		})
+	web.Route("DELETE","/update/",func(context *webUtils.Context){
+			context.Json("")
+		})
+	web.Get("/backup/",func(context *webUtils.Context){
+			model.Storage.BackUp()
+			context.Json("")
+		})
+	web.Run()
 }
