@@ -1,36 +1,28 @@
-
-<div class="container clear">
-    {{range .Tasks}}
-    <h1>{{.Title}} <small>{{.User}}</small></h1>
-    {{end}}
-    <table class="table">
+<!-- content部分start -->
+<div data-role="content">
+    <table data-role="table" data-mode="columntoggle"  data-column-btn-text="过滤显示" class="ui-responsive  table-stroke" id="myTable">
         <thead>
         <tr>
-            <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
+            <th>任务名称</th>
+            <th>人员</th>
+            <th data-priority="1">开始时间</th>
+            <th data-priority="2">结束时间</th>
+            <th data-priority="3">状态</th>
+            <th data-priority="5">打分</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-        </tr>
+        {{range .Tasks}}
+            <tr>
+                <td>{{.Title}}</td>
+                <td>{{.User}}</td>
+                <td>{{DateInt64 .StartTime "YYYY-MM-DD HH:mm"}}</td>
+                <td>{{DateInt64 .EndTime "YYYY-MM-DD HH:mm"}}</td>
+                <td>{{.Status}}</td>
+                <td>{{.Score}}</td>
+            </tr>
+        {{end}}
         </tbody>
     </table>
 </div>
+<!-- content部分end -->

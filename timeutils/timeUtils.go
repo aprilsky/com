@@ -38,3 +38,6 @@ func DateFormat(t time.Time, format string) string {
 	res = strings.Replace(res, "s", t.Format("5"), -1)
 	return res
 }
+func StringToDate(str string)*time.Time{
+	return nil
+}

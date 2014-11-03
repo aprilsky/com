@@ -10,6 +10,7 @@ import (
 	webUtils "github.com/aprilsky/goutils/webUtils"
 	"html/template"
 	"github.com/aprilsky/goutils/model"
+	"strconv"
 )
 func testTimeUtils(){
 	fmt.Println(timeUtils.DateFormat(time.Now(), "YYYY-MM-DD"))
@@ -34,8 +35,12 @@ func testStringUtils(){
 	fmt.Println(b)
 	fmt.Println(str)
 }
-func getString(key string) string {
-	return "this is a "+ key
+
+
+// Format unix time int64 to string
+func DateInt64(ti int64, format string) string {
+	t := time.Unix(int64(ti), 0)
+	return timeUtils.DateFormat(t, format)
 }
 func i18n(key string)interface {}{
 	str:= `<i class="i18n" style="">`+key+`</i>`
@@ -43,8 +48,7 @@ func i18n(key string)interface {}{
 }
 func start(){
 	web := webUtils.New()
-
-	web.View().FuncMap["getString"] = getString
+	web.View().FuncMap["DateInt64"] = DateInt64
 	web.View().FuncMap["i18n"]=i18n
 
 	web.Get("/admin/:id/",func(context  *webUtils.Context){
@@ -55,15 +59,15 @@ func start(){
 }
 func main() {
 	web := webUtils.New()
+	web.View().FuncMap["DateInt64"] = DateInt64
+
 	var data = make(map[string]interface {})
 	web.Get("/",func(context *webUtils.Context){
 			context.Layout("layout")
 			data["Title"] = "首页"
 			tasks := model.ListTasks()
 			data["Tasks"] = tasks
-			for _,task := range tasks{
-				println(task.Title)
-			}
+
 			context.Render("index",data)
 		})
 	web.Route("POST,GET","/list/",func(context *webUtils.Context){
@@ -76,7 +80,19 @@ func main() {
 			context.Render("add",nil)
 		})
 	web.Route("POST","/add/",func(context *webUtils.Context){
-			context.Json("")
+			inputMap := context.Input()
+
+			println(inputMap["StartTime"])
+
+			task := new(model.Task)
+			task.Title=inputMap["Title"]
+			task.StartTime,_=strconv.ParseInt(inputMap["StartTime"],0,64)
+			task.EndTime,_=strconv.ParseInt((inputMap["EndTime"]),0,64)
+			task.Score,_=strconv.ParseFloat(inputMap["Score"],64)
+			task.User=inputMap["User"]
+			model.CreateTask(task)
+			context.Redirect("/")
+			return
 		})
 	web.Route("PUT","/update/",func(context *webUtils.Context){
 			context.Json("")

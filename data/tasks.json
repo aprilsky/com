@@ -1,19 +1,19 @@
 [
     {
         "Id": 5,
-        "Title": "这是第一个任务",
-        "CreateTime": 1414811724,
+        "Title": "tbcs 增加操作日志",
+        "StartTime": 1414811724,
         "EndTime": 1414811724,
-        "Status": "",
+        "Status": "UNFINISHED",
         "User": "caoxiao",
         "Score": 0
     },
     {
         "Id": 6,
         "Title": "这是第二个任务",
-        "CreateTime": 1414811724,
+        "StartTime": 1414811724,
         "EndTime": 1414811724,
-        "Status": "",
+        "Status": "FINISHED",
         "User": "caoxiao1",
         "Score": 0
     }

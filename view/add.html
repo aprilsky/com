@@ -1,1 +1,32 @@
-<h1>这个是添加</h1>
+<div data-role="content">
+    <form method="post" action="">
+        <div data-role="fieldcontain">
+            <label for="Title">任务名称：</label>
+            <input type="text" name="Title" id="title" required="true" value="" placeholder="任务名称？">
+        </div>
+
+        <div data-role="fieldcontain">
+            <label for="user">负责人：</label>
+            <input type="text" name="User" id="user"   required="true" value="" placeholder="负责人"/>
+        </div>
+
+        <div data-role="fieldcontain">
+            <label for="start_date">任务开始时间：</label>
+            <input type="date" name="StartTime"  required="true" id="start_date" value="">
+        </div>
+
+        <div data-role="fieldcontain">
+            <label for="end_date">任务结束时间：</label>
+            <input type="date" name="EndTime"  required="true" id="end_date" value="">
+        </div>
+
+        <div data-role="fieldcontain">
+            <label for="score">分数：</label>
+            <input type="text" name="Score"  required="true" id="score" value="">
+        </div>
+        <div>
+            <input type="submit" data-role="button" value="保存"  data-inline="true">
+        </div>
+    </form>
+</div>
+
